@@ -12,7 +12,7 @@ Function Get-XMLDocument($initialDirectory)
 {
     [System.Reflection.Assembly]::LoadWithPartialName("System.windows.forms") | Out-Null
 	
-	$OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
+    $OpenFileDialog = New-Object System.Windows.Forms.OpenFileDialog
     $OpenFileDialog.InitialDirectory = $initialDirectory
     $OpenFileDialog.ShowDialog() | Out-Null
     $OpenFileDialog.FileName
@@ -41,7 +41,7 @@ $inputfile = Get-XMLDocument "$xmlfilepath"
 
 if ($inputfile -eq "") {
     Write-Output "No XML file selected!`n"
-	exit
+    exit
 }
 
 $inputdata = (Get-Content $inputfile)
