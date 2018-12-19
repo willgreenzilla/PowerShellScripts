@@ -1,0 +1,13 @@
+﻿\\fqdn_1\log_folder_dir1
+\\fqdn_2\log_folder_dir2
+\\fqdn_3\log_folder_dir3
+\\fqdn_4\log_folder_dir4
+ForcedDisconnectException: This member has been forced out of the distributed system by
+Cache retrieval failed with message Error accessing the cache container - Error on GET action for cache Replicated:RM_SYNC_CACHE
+Cache get failed for service system.endpoint_registry Reason: Error accessing the cache container - Error on GET action for cache ReplicatedGuaranteed:dsc_sc_service
+SQLException: The target database ('db1') is in an availability group and is currently accessible for connections when the application intent is set to read only
+ConnectionException: An existing connection was forcibly closed by the remote host
+DSRA0080E
+database 'db1' because the database replica is not in the PRIMARY or SECONDARY role
+SRVE0255E: A WebGroup/Virtual Host to handle / has not been defined
+WTRN0124I: When the timeout occurred the thread with which the transaction is
