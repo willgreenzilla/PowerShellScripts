@@ -1,6 +1,7 @@
-﻿# PridemodShuffle.ps1
+﻿# PridemodShuffleBXFR.ps1
 
 # Uses bitstransfer module to copy files from core to busppn.
+# Replaced by PridemodShuffle.ps1 using robocopy.
 # Will Green
 
 Import-Module bitstransfer
