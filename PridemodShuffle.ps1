@@ -1,13 +1,13 @@
-﻿# PridemodShuffle.ps1
+# FileShuffle.ps1
 # v2
 
-# Uses robocopy to copy files from core to busppn.
+# Uses robocopy to copy files from domain to another untrusted domain.
 # Will Green
 
-# Collection of account, host, and credential info. Credentials stored in a secure text file.
+# Collection of account, host, and credential info. Password encoded and stored in a text file.
 
 # Pull values from the config file "shuffleconfig"
-$shuffleconfig = 'D:\Pridemod\Scripts\PridemodShuffle.config'
+$shuffleconfig = 'D:\app\Scripts\FileShuffle.config'
 $configvaluestring = Get-Content $shuffleconfig | Out-String
 $configstringconvert = $configvaluestring -replace '\\', '\\'
 $configvalues = ConvertFrom-StringData $configstringconvert
@@ -17,7 +17,7 @@ Write-Output "-" >> $shufflelog
 Write-Output "$(Get-Date -Format "yyyy MMM dd HH:mm:ss"): SCRIPT EXECUTED" >> $shufflelog
 
 # Check script lock, if no lock, create lock, run, and unlock when complete, else, exit.
-if (Test-Path PridemodShuffleLOCK)
+if (Test-Path FileShuffleLOCK)
 {
 
     Add-Content $shufflelog "$(Get-Date -Format "yyyy MMM dd HH:mm:ss"): Script tried to start while already RUNNING..."
@@ -26,7 +26,7 @@ if (Test-Path PridemodShuffleLOCK)
 }
 
 # Create lock file to lock script so it cannot be ran while already running
-New-Item -Path . -Name "PridemodShuffleLOCK" -ItemType "File" -Value "PridemodShuffle.ps1 is currently RUNNING!"
+New-Item -Path . -Name "FileShuffleLOCK" -ItemType "File" -Value "FileShuffle.ps1 is currently RUNNING!"
 
 # Set variables (many pulled from the PridemodShuffle.config file
 $username = $configvalues.USERNAME
@@ -149,5 +149,5 @@ foreach ($j in $files)
 }
 
 # Remove script lock & K drive
-Remove-Item -Path "PridemodShuffleLOCK"
+Remove-Item -Path "FileShuffleLOCK"
 Remove-PSDrive -Name K
