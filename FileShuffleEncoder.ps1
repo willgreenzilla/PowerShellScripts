@@ -1,9 +1,9 @@
-﻿# PridemodShuffleEncoder.ps1
+# FileShuffleEncoder.ps1
 
 # Encodes the domain XXX user account password: domain\useraccount
 
 # Pull values from the config file "shuffleconfig"
-$shuffleconfig = 'D:\app\Scripts\PridemodShuffle.config'
+$shuffleconfig = 'D:\app\Scripts\FileShuffle.config'
 $configvaluestring = Get-Content $shuffleconfig | Out-String
 $configstringconvert = $configvaluestring -replace '\\', '\\'
 $configvalues = ConvertFrom-StringData $configstringconvert
