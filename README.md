@@ -12,3 +12,6 @@ Simple script to copy folders, folder contents, and files from one folder on one
 
 # FileShuffle.ps1
 Simple script to copy folders, folder contents, and files from one folder on one server to another folder on another domain of which there is no trust between domains, just a domain account with permission to work on both servers. Files are copied over a set last write time to prevent accidental copies of files not yet completely copied into the initial directory. Config file sets the server details and username info, etc. Password is encoded and read in when the script is executed. To be ran from task scheduler. Built for a specific workaround to move a large quantity of records between servers from LiveCycle to be fed into KOFAX. This version uses robocopy and does work when kicked off via a scheduled task and runs under a service account.
+
+# ErrorLogScanner.ps1
+Simple script to spin thru a list of log directories (defined in the scan_script_error_list.config) and build a report based on errors/messages/etc matching a list of newline separated strings (also defined in the scan_script_error_list.config). Can scan any number of directories (on any server you have direct access to) for any number of errors/strings. Set the $servercount variable to the number of servers/directories to be hit to equal the number of servers listed in the config.
