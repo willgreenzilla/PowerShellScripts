@@ -1,4 +1,5 @@
 # ESUBNameFixerV2.ps1
+# Version 2.1
 
 # Fixes ESUB images lacking a pdf or tif file extension by adding the appropriate extension and
 # fixing the errors and name matching within the XML document. Also truncates image names that are
@@ -7,10 +8,11 @@
 #
 # Updates: Added finding bad TIFs and converting them into PDFs via ImageMagick.
 #
-# NOTE: Version 2 (V2) REQUIRES ImageMagick to work fully (for converting images from TIF to PDF).
+# NOTE: Version 2 (V2) REQUIRES ImageMagick to work. If no ImageMagick, run the original version.
+#       The original version won't do any image conversion.
 #
 # Will Green
-# 08/21/2019
+# 09/06/2019
 
 $convertimages = "0"
 
@@ -90,39 +92,41 @@ $makeintotifs2 = Get-ChildItem -Recurse $batchimages -exclude *.pdf,*.tif,*.PDF,
 # Find all of the TIF images and prep them to convert to PDF
 $tifstoconvert = Get-ChildItem -Recurse $batchimages -exclude *.pdf,*.PDF | Select-String -Pattern '^II|^MM' | Select-Object -ExpandProperty Path -Unique Path
 
+######(Get-Content 49511.xml).Replace("5891719_BARNHILL 613 (2).tif","5891719_BARNHILL 613 (2).pdf")
+
 # Rename pdfs (add .pdf extension) and update the XML
 ForEach ($imagefile in $makeintopdfs) {
     
-    Rename-Item $imagefile ($imagefile + ".pdf")
+    Rename-Item $imagefile ("$imagefile" + ".pdf")
     Write-Output "$imagefile was RENAMED to:`n$imagefile.pdf`n"
-    $oldpdf = Split-Path $imagefile -leaf
-    $newfullpdf = ($imagefile + ".pdf")
-    $newpdf = Split-Path $newfullpdf -leaf
-    ((Get-Content -Path $tempoutputfile) -replace $oldpdf,$newpdf) | Set-Content -Path $tempoutputfile
+    $oldpdf = Split-Path "$imagefile" -leaf
+    $newfullpdf = ("$imagefile" + ".pdf")
+    $newpdf = Split-Path "$newfullpdf" -leaf
+    (Get-Content -Path $tempoutputfile).Replace("$oldpdf","$newpdf") | Set-Content -Path $tempoutputfile
         
 }
 
 # Rename tifs (add .tif extension) and update the XML (II)
 ForEach ($imagefile in $makeintotifs) {
     
-    Rename-Item $imagefile ($imagefile + ".tif")
+    Rename-Item "$imagefile" ("$imagefile" + ".tif")
     Write-Output "$imagefile was RENAMED to:`n$imagefile.tif`n"
-    $oldtif = Split-Path $imagefile -leaf
-    $newfulltif = ($imagefile + ".tif")
-    $newtif = Split-Path $newfulltif -leaf
-    ((Get-Content -Path $tempoutputfile) -replace $oldtif,$newtif) | Set-Content -Path $tempoutputfile
+    $oldtif = Split-Path "$imagefile" -leaf
+    $newfulltif = ("$imagefile" + ".tif")
+    $newtif = Split-Path "$newfulltif" -leaf
+    (Get-Content -Path $tempoutputfile).Replace("$oldtif","$newtif") | Set-Content -Path $tempoutputfile
         
 }
 
 # Rename tifs (add .tif extension) and update the XML (MM)
 ForEach ($imagefile in $makeintotifs2) {
     
-    Rename-Item $imagefile ($imagefile + ".tif")
+    Rename-Item "$imagefile" ("$imagefile" + ".tif")
     Write-Output "$imagefile was RENAMED to:`n$imagefile.tif`n"
-    $oldtif1 = Split-Path $imagefile -leaf
-    $newfulltif1 = ($imagefile + ".tif")
-    $newtif1 = Split-Path $newfulltif -leaf
-    ((Get-Content -Path $tempoutputfile) -replace $oldtif1,$newtif1) | Set-Content -Path $tempoutputfile
+    $oldtif1 = Split-Path "$imagefile" -leaf
+    $newfulltif1 = ("$imagefile" + ".tif")
+    $newtif1 = Split-Path "$newfulltif" -leaf
+    (Get-Content -Path $tempoutputfile).Replace("$oldtif1","$newtif1") | Set-Content -Path $tempoutputfile
         
 }
 
@@ -131,12 +135,12 @@ if ($convertimages -eq "1") {
     # Convert TIFs into PDFs
     ForEach ($imagefile in $tifstoconvert) {
     
-        $imagefile2 = ($imagefile -replace ".{3}$") + "pdf"
-        convert $imagefile $imagefile2
+        $imagefile2 = ("$imagefile" -replace ".{3}$") + "pdf"
+        convert "$imagefile" "$imagefile2"
         Write-Output "$imagefile was CONVERTED to:`n$imagefile2`n"
-        $preconvert = Split-Path $imagefile -leaf
-        $newconvert = Split-Path $imagefile2 -leaf
-        ((Get-Content -Path $tempoutputfile) -replace $preconvert,$newconvert) | Set-Content -Path $tempoutputfile
+        $preconvert = Split-Path "$imagefile" -leaf
+        $newconvert = Split-Path "$imagefile2" -leaf
+        (Get-Content -Path $tempoutputfile).Replace("$preconvert","$newconvert") | Set-Content -Path $tempoutputfile
         Remove-Item $imagefile
         
     }
